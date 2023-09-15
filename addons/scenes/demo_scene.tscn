@@ -1,0 +1,137 @@
+[gd_scene load_steps=19 format=3 uid="uid://caonije6a5trx"]
+
+[ext_resource type="Texture2D" uid="uid://bo7fd65wahjlk" path="res://addons/data/textures/grass.png" id="1_0qiut"]
+[ext_resource type="Script" path="res://addons/data/scripts/player/player_controller.gd" id="2_qbma8"]
+[ext_resource type="Texture2D" uid="uid://crdueq1vpyv0j" path="res://addons/data/sprites/test/test_back.png" id="3_284hu"]
+[ext_resource type="Texture2D" uid="uid://b863t2dgq2tbe" path="res://addons/data/sprites/test/test_back_left.png" id="4_ln8g2"]
+[ext_resource type="Texture2D" uid="uid://m4fsj1y7wgmy" path="res://addons/data/sprites/test/test_back_right.png" id="5_6w5lw"]
+[ext_resource type="Texture2D" uid="uid://crublt6q32xrv" path="res://addons/data/sprites/test/test_front.png" id="6_btcgi"]
+[ext_resource type="Texture2D" uid="uid://m0dd2k3ux761" path="res://addons/data/sprites/test/test_front_left.png" id="7_j2x7c"]
+[ext_resource type="Texture2D" uid="uid://cwqj1k8755dh5" path="res://addons/data/sprites/test/test_front_right.png" id="8_w2411"]
+[ext_resource type="Texture2D" uid="uid://coges86bsxipe" path="res://addons/data/sprites/test/test_left.png" id="9_cu72v"]
+[ext_resource type="Texture2D" uid="uid://bictaivfrh2w7" path="res://addons/data/sprites/test/test_right.png" id="10_7e8s2"]
+[ext_resource type="Script" path="res://addons/data/scripts/sprite_rotation/sprite_rotation.gd" id="11_5f6jj"]
+[ext_resource type="Script" path="res://addons/data/scripts/rotate_cube.gd" id="12_wen4l"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7tiaw"]
+size = Vector3(60, 2, 60)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_y17yx"]
+albedo_texture = ExtResource("1_0qiut")
+uv1_scale = Vector3(25, 25, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_vrjgm"]
+material = SubResource("StandardMaterial3D_y17yx")
+size = Vector3(60, 2, 60)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_bnjwb"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_82gk6"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_284hu")
+}],
+"loop": true,
+"name": &"back",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_ln8g2")
+}],
+"loop": true,
+"name": &"back_left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_6w5lw")
+}],
+"loop": true,
+"name": &"back_right",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_btcgi")
+}],
+"loop": true,
+"name": &"front",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_j2x7c")
+}],
+"loop": true,
+"name": &"front_left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_w2411")
+}],
+"loop": true,
+"name": &"front_right",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("9_cu72v")
+}],
+"loop": true,
+"name": &"left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("10_7e8s2")
+}],
+"loop": true,
+"name": &"right",
+"speed": 5.0
+}]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t8syq"]
+albedo_color = Color(0, 0, 1, 1)
+
+[node name="Main" type="Node3D"]
+
+[node name="Ground" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+shape = SubResource("BoxShape3D_7tiaw")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
+mesh = SubResource("BoxMesh_vrjgm")
+
+[node name="Player" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5)
+script = ExtResource("2_qbma8")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_bnjwb")
+
+[node name="Camera3D" type="Camera3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 7, 0)
+light_color = Color(0.294118, 0.294118, 0.294118, 1)
+shadow_enabled = true
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
+transform = Transform3D(0.15, 0, 0, 0, 0.15, 0, 0, 0, 0.15, 0, 1, 0)
+sprite_frames = SubResource("SpriteFrames_82gk6")
+animation = &"back"
+script = ExtResource("11_5f6jj")
+
+[node name="RotationRange" type="Node3D" parent="."]
+script = ExtResource("12_wen4l")
+
+[node name="Lookpoint" type="CSGBox3D" parent="RotationRange"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 1, 10)
+material = SubResource("StandardMaterial3D_t8syq")
